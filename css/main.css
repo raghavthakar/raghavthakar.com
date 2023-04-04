@@ -5,6 +5,53 @@ body {
     font-size: 20px;
 }
 
+@media only screen and (max-width: 1700px) {
+    body {
+        margin-left: 20%;
+        margin-right: 20%;
+    }
+}
+
+@media only screen and (max-width: 1200px) {
+    body {
+        margin-left: 10%;
+        margin-right: 10%;
+    }
+}
+
+@media only screen and (max-width: 768px) {
+    body {
+        margin-left: 2%;
+        margin-right: 2%;
+    }
+
+    .profile-img-right{
+        display: none;
+        padding-left: 0%;
+    }
+
+    .intro-text{
+        padding-right: 0%;
+    }
+
+    #profile-img-top {
+        display: block;
+    }
+}
+
+@media only screen and (max-width: 480) {
+    body {
+        font-size: 14px;
+    }
+
+    h1{
+        font-size: 24px;
+    }
+    
+    h2{
+        font-size: 18px;
+    }
+}
 
 h1{
     padding: 0%;
@@ -84,50 +131,3 @@ nav ul img{
     padding-bottom: 2.5%;
 }
 
-@media only screen and (max-width: 1700px) {
-    body {
-        margin-left: 20%;
-        margin-right: 20%;
-    }
-}
-
-@media only screen and (max-width: 1200px) {
-    body {
-        margin-left: 10%;
-        margin-right: 10%;
-    }
-}
-
-@media only screen and (max-width: 768px) {
-    body {
-        margin-left: 2%;
-        margin-right: 2%;
-    }
-
-    .profile-img-right{
-        display: none;
-        padding-left: 0%;
-    }
-
-    .intro-text{
-        padding-right: 0%;
-    }
-
-    #profile-img-top {
-        display: block;
-    }
-}
-
-@media only screen and (max-width: 480) {
-    body {
-        font-size: 14px;
-    }
-
-    h1{
-        font-size: 24px;
-    }
-    
-    h2{
-        font-size: 18px;
-    }
-}
