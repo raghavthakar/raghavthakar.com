@@ -131,3 +131,8 @@ nav ul img{
     padding-bottom: 2.5%;
 }
 
+#last-modified{
+    font-family: 'Courier New', Courier, monospace; 
+    font-size: 14px;
+}
+

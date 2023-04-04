@@ -12,6 +12,10 @@
         <nav>
             <ul>
                 <li><a href="index.html"><img src="img/profile4.png" alt=""></a></li>
+                <br>
+                <li><a href="index.html">Home</a></li>
+                <li><a href="#personal_projects">Projects</a></li>
+                <li><a href="#experience">Experience</a></li>
             </ul>
         </nav>
     </header>
@@ -51,9 +55,9 @@
                 </tr>
             </tbody>
         </table>
-        <br><br><br>
+        <br><br><br><br>
 
-        <h1>Personal Projects</h1>
+        <h1 id="personal_projects">Personal Projects</h1>
         <table style="width: 100%">
             <tbody>
                 <tr>
@@ -105,7 +109,7 @@
         </table>
         <br><br><br>
 
-        <h1>Experience</h1>
+        <h1 id="experience">Experience</h1>
         <ul class="experience-ul">
             <li><i>November 2021 - Present (In-person from February 2023):</i> Undergraduate Researcher, <a href="https://moonlab.iiserb.ac.in/" target="_blank">Moon Lab</a>,
                 <a href="https://www.iiserb.ac.in/" target="_blank">IISER Bhopal</a></li>
@@ -118,6 +122,11 @@
     </main>
 
     <footer style="text-align: center;">
+        <p id="last-modified"></p>
+        <script>
+            const date = new Date(document.lastModified);
+            document.getElementById("last-modified").innerHTML = "Last modified: "+date;
+        </script>
         <a href="https://madewithlove.org.in/" target="_blank" rel="noopener noreferrer">Made with ❤️ in India</a>
     </footer>
 </body>
