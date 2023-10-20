@@ -23,51 +23,86 @@
 
     <h1>Blog</h1>
 
-    <p id="blog-posts-list"></p>
-
+    <ul id="blog-posts-list"></ul>
+    
     <script>
-        // Get the list of blog post directories
-        const postDirs = ['blogs/posts/july-27-2023/july-27-2023.html',
-        'blogs/posts/may-22-2023/may-22-2023.html', 'blogs/posts/may-08-2023/may-08-2023.html'
-        ];
+        const fs = require('fs');
+        const path = require('path');
 
-        blogPostsList=document.getElementById('blog-posts-list');
-      
-        // Loop through each directory and fetch the HTML file
-        postDirs.forEach((dir) => {
-            fetch(dir)
-              .then((response) => response.text())
-              .then((html) => {
-                // Create a dummy element to hold the HTML contents
-                const dummyElement = document.createElement('div');
-                dummyElement.innerHTML = html;
-          
-                // Find the first h1 tag within the dummy element
-                const blogName = dummyElement.querySelector('h1').innerHTML;
-                // Create the link URL by removing the '.html' extension from the directory
-                const blogLink = dir;
-                
-                listItem = document.createElement('li');
-                linkElement = document.createElement('a');
-                linkElement.textContent = blogName;
-                linkElement.href = blogLink;
-                listItem.appendChild(linkElement);
+        const blogPostsFolder = "blogs/posts-html/";
+            // let title = document.getElementById('blog-content').querySelectorAll('h1')[0].textcontent
+        fs.readdir(blogPostsFolder, (err, files) => {
+            if (err) {
+                console.error('Error reading directory:', err);
+                return;
+            }
+            files.forEach((file) => {
+                const filePath = path.join(folderPath, file);
 
-                blogPostsList.appendChild(listItem);
-              })
-              .catch((error) => console.error(error));
-          });
+                if (path.extname(file) === '.html') {
+                // Read the HTML content from the file
+                    const htmlContent = fs.readFileSync(filePath, 'utf-8');
+
+                    // Parse the HTML content
+                    const { DOMParser } = require('jsdom');
+                    const dom = new DOMParser().parseFromString(htmlContent, 'text/html');
+
+                    // Now, you can access and manipulate the DOM
+                    title = dom.getElementById('blog-content').querySelectorAll('h1')[0].textcontent;
+                    // const titleElement = dom.querySelector('title');
+                    // const title = titleElement ? titleElement.textContent : 'No title found';
+
+                    console.log('Title:', title);
+                }
+            });
+
+        });
+
+        document.addEventListener("DOMContentLoaded", function () {
+        // Reference the 'blog-post-list' ul element where we want to display the links
+        const blogPostList = document.getElementById("blog-post-list");
+
+        // Define the path to the 'blog-posts' folder
+        // const blogPostsFolder = "blogs/posts-html/";
+
+        
+        
+
+        // Fetch the list of files in the 'blog-posts' folder
+        fetch(blogPostsFolder)
+            .then(response => response.text())
+            .then(data => {
+                // Parse the directory listing HTML using DOMParser
+                const parser = new DOMParser();
+                const doc = parser.parseFromString(data, "text/html");
+                const links = doc.querySelectorAll("a");
+
+                console.log(links);
+
+                // Iterate through the links and create list items with hyperlinks
+                links.forEach(link => {
+                    const li = document.createElement("li");
+                    const a = document.createElement("a");
+                    a.href = blogPostsFolder + link.getAttribute("href");
+                    a.textContent = link.textContent;
+                    li.appendChild(a);
+                    blogPostList.appendChild(li);
+                });
+            })
+            .catch(error => {
+                console.error("Error fetching and listing blog posts:", error);
+            });
+        });
+
     </script>
-      
-    
-    
+       
     <footer style="text-align: center;">
         <p id="last-modified"></p>
         <script>
             const date = new Date(document.lastModified);
             document.getElementById("last-modified").innerHTML = "Last modified: "+date;
         </script>
-        <a href="https://madewithlove.org.in/" target="_blank" rel="noopener noreferrer">Made with ❤️ in India</a>
+        <a href="https://madewithlove.org.in/" target="_blank" rel="noopener noreferrer">Made with 💩 in India</a>
     </footer>
 </body>
 
