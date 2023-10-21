@@ -26,83 +26,46 @@
     <ul id="blog-posts-list"></ul>
     
     <script>
-        const fs = require('fs');
-        const path = require('path');
+        const files = [
+            'blogs/posts-html/July-27-2023.html',
+            'blogs/posts-html/May-08-2023.html',
+            'blogs/posts-html/May-22-2023.html'
+        ];
+        const blogPostsList = document.getElementById("blog-posts-list");
+        files.forEach(file => {
+            fetch(file)
+                .then(response => response.text())
+                .then(htmlContent => {
 
-        const blogPostsFolder = "blogs/posts-html/";
-            // let title = document.getElementById('blog-content').querySelectorAll('h1')[0].textcontent
-        fs.readdir(blogPostsFolder, (err, files) => {
-            if (err) {
-                console.error('Error reading directory:', err);
-                return;
-            }
-            files.forEach((file) => {
-                const filePath = path.join(folderPath, file);
-
-                if (path.extname(file) === '.html') {
-                // Read the HTML content from the file
-                    const htmlContent = fs.readFileSync(filePath, 'utf-8');
-
-                    // Parse the HTML content
-                    const { DOMParser } = require('jsdom');
-                    const dom = new DOMParser().parseFromString(htmlContent, 'text/html');
-
-                    // Now, you can access and manipulate the DOM
-                    title = dom.getElementById('blog-content').querySelectorAll('h1')[0].textcontent;
-                    // const titleElement = dom.querySelector('title');
-                    // const title = titleElement ? titleElement.textContent : 'No title found';
-
+                    const doc = new DOMParser().parseFromString(htmlContent, 'text/html');
+                    title = doc.getElementById('blog-content').querySelectorAll('h1')[0].textContent;
                     console.log('Title:', title);
-                }
-            });
+                    console.log(file);
 
-        });
-
-        document.addEventListener("DOMContentLoaded", function () {
-        // Reference the 'blog-post-list' ul element where we want to display the links
-        const blogPostList = document.getElementById("blog-post-list");
-
-        // Define the path to the 'blog-posts' folder
-        // const blogPostsFolder = "blogs/posts-html/";
-
-        
-        
-
-        // Fetch the list of files in the 'blog-posts' folder
-        fetch(blogPostsFolder)
-            .then(response => response.text())
-            .then(data => {
-                // Parse the directory listing HTML using DOMParser
-                const parser = new DOMParser();
-                const doc = parser.parseFromString(data, "text/html");
-                const links = doc.querySelectorAll("a");
-
-                console.log(links);
-
-                // Iterate through the links and create list items with hyperlinks
-                links.forEach(link => {
+                    // Iterate through the links and create list items with hyperlinks
                     const li = document.createElement("li");
                     const a = document.createElement("a");
-                    a.href = blogPostsFolder + link.getAttribute("href");
-                    a.textContent = link.textContent;
+                    a.href = file;
+                    a.textContent = title;
                     li.appendChild(a);
-                    blogPostList.appendChild(li);
+                    blogPostsList.appendChild(li);
+                    
+
+                })
+                .catch(error => {
+                    console.error(`Error fetching or parsing ${file}:`, error);
                 });
-            })
-            .catch(error => {
-                console.error("Error fetching and listing blog posts:", error);
-            });
         });
 
     </script>
-       
+    
     <footer style="text-align: center;">
         <p id="last-modified"></p>
         <script>
             const date = new Date(document.lastModified);
             document.getElementById("last-modified").innerHTML = "Last modified: "+date;
         </script>
-        <a href="https://madewithlove.org.in/" target="_blank" rel="noopener noreferrer">Made with 💩 in India</a>
+        <a href="https://madewithlove.org.in/" target="_blank" rel="noopener noreferrer">Made with ❤️ in India</a>
     </footer>
 </body>
 
