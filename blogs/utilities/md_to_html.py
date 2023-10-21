@@ -46,7 +46,7 @@ for md_file in md_file_list:
     # find the regex match, and the actual tag, and the data to insert
     blog_file_content = re.sub('<\s*div\s+id\s*=\s*"blog-content"\s*>', '<div id="blog-content">'+html_text, template_content)
     # repeat that for the blog date
-    blog_file_content = re.sub('<\s*div\s+id\s*=\s*"publish-date"\s*>', '<div id="publish-date"> Published: '+str(blog_date_in_words), blog_file_content)
+    blog_file_content = re.sub('<\s*div\s+id\s*=\s*"publish-date"\s*>', '<div id="publish-date">Published (yyyy/mm/dd): '+str(blog_date_in_words), blog_file_content)
 
     # write the contents into a blog post file with the date as the name
     with open(str(html_folder_path.absolute()) + '/' + blog_date_in_words + '.html', 'w') as blog_file:
