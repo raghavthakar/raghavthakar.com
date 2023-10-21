@@ -22,44 +22,57 @@
 
 
     <h1>Blog</h1>
-
-    <p id="blog-posts-list"></p>
-
-    <script>
-        // Get the list of blog post directories
-        const postDirs = ['blogs/posts/july-27-2023/july-27-2023.html',
-        'blogs/posts/may-22-2023/may-22-2023.html', 'blogs/posts/may-08-2023/may-08-2023.html'
-        ];
-
-        blogPostsList=document.getElementById('blog-posts-list');
-      
-        // Loop through each directory and fetch the HTML file
-        postDirs.forEach((dir) => {
-            fetch(dir)
-              .then((response) => response.text())
-              .then((html) => {
-                // Create a dummy element to hold the HTML contents
-                const dummyElement = document.createElement('div');
-                dummyElement.innerHTML = html;
-          
-                // Find the first h1 tag within the dummy element
-                const blogName = dummyElement.querySelector('h1').innerHTML;
-                // Create the link URL by removing the '.html' extension from the directory
-                const blogLink = dir;
-                
-                listItem = document.createElement('li');
-                linkElement = document.createElement('a');
-                linkElement.textContent = blogName;
-                linkElement.href = blogLink;
-                listItem.appendChild(linkElement);
-
-                blogPostsList.appendChild(listItem);
-              })
-              .catch((error) => console.error(error));
-          });
-    </script>
-      
+ 
+    <ul id="blog-posts-list"></ul>
     
+    <script>
+        // const files = [
+        //     'blogs/posts-html/July-27-2023.html',
+        //     'blogs/posts-html/May-22-2023.html',
+        //     'blogs/posts-html/May-08-2023.html'
+        // ];
+        async function fetchFileItems() {
+            try {
+                const response = await fetch('blogs/utilities/blogs_list.json');
+                const blog_list_json = await response.json();
+                // You can use file_items here
+                return blog_list_json; // You can return it if needed
+            } catch (error) {
+                console.error('Error fetching data:', error);
+            }
+        }
+
+        fetchFileItems()
+            .then((blog_list_json) => {
+                // You can also use file_items here if you returned it
+                const blogPostsList = document.getElementById("blog-posts-list");
+
+                for (const date_key in blog_list_json){
+                    const filepath_value = blog_list_json[date_key];
+                    
+                    fetch(filepath_value)
+                        .then(response => response.text())
+                        .then(htmlContent => {
+                            const doc = new DOMParser().parseFromString(htmlContent, 'text/html');
+                            title = doc.getElementById('blog-content').querySelectorAll('h1')[0].textContent;
+
+                            // Iterate through the links and create list items with hyperlinks
+                            const li = document.createElement("li");
+                            const a = document.createElement("a");
+                            a.href = filepath_value;
+                            a.textContent = date_key+' /  '+title;
+                            li.appendChild(a);
+                            blogPostsList.appendChild(li);
+                        })
+                        .catch(error => {
+                            console.error('Error fetching or parsing ${filepath_value}:', error);
+                        });
+                }
+        });
+
+        
+
+    </script>
     
     <footer style="text-align: center;">
         <p id="last-modified"></p>
