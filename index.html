@@ -42,6 +42,30 @@
     .paper-authors{display:block}
     .paper-venue{font-style:italic}
 
+    .filter-btn{
+      color:inherit;
+      text-decoration:underline dotted var(--accent) 2px;
+      text-underline-offset:3px;
+      transition:color .2s;
+
+      background:none;
+      border:none;          /* <— removes the black frame           */
+      outline:none;         /* <— removes the keyboard-focus ring   */
+      appearance:none;      /* <— strips any extra native styling   */
+    }
+
+    .filter-btn:hover{
+      color:var(--accent);
+      text-decoration:none;
+      cursor:pointer;
+    }
+
+    /* keep keyboard users happy */
+    .filter-btn:focus-visible{
+      outline:2px solid var(--accent);
+      outline-offset:2px;
+    }
+
     /* —— Lists —— */
     .updates li,.experience li{margin:.15rem 0}
 
@@ -69,7 +93,7 @@
     <div class="intro-text">
       <h1>Hi! I'm Raghav Thakar</h1>
       <p>I'm a Robotics PhD student at the <a href="https://web.engr.oregonstate.edu/~ktumer/" target="_blank">Autonomous Agents and Distributed Intelligence Lab</a>, in the <a href="https://engineering.oregonstate.edu/CoRIS" target="_blank">Collaborative Robotics and Intelligent Systems Institute</a> at <a href="https://oregonstate.edu/" target="_blank">Oregon State University</a>. I am advised by <a href="https://web.engr.oregonstate.edu/~ktumer/" target="_blank">Dr Kagan Tumer</a>.</p>
-      <p>I study how autonomous agents learn to perform complex multiagent cooperative tasks that involve multiple simultaneous objectives. My research sits at the intersection of multiagent learning, multi-objective learning, and robotics.</p>
+      <p>I work on multiagent learning, i.e., learning-based techniques that enable multiple autonomous agents to coordinate and perform complex tasks together. In particular, I am interested in multiagent learning for <i>multi-objective</i> problems, wherein multiagent systems must learn to optimise for and/or balance multiple objectives at once.</p>
       <p>If you would like to talk about research, new ideas, or anything else, please do not hesitate in reaching out: <a href="mailto:thakarr@oregonstate.edu">thakarr@oregonstate.edu</a></p>
       <p>
         <a href="mailto:thakarr@oregonstate.edu">Email</a> /
@@ -84,6 +108,9 @@
   <!-- ========================== PUBLICATIONS ========================== -->
   <section id="publications">
     <h2>Publications</h2>
+    <button id="filter-full" class="filter-btn" aria-pressed="false">
+      Show only full papers
+    </button>
     <ul class="papers">
       <li itemscope itemtype="https://schema.org/ScholarlyArticle">
         <span class="paper-title" itemprop="name">The Specificity vs. Expense Trade-Off of Multiagent Credit</span>
@@ -97,7 +124,7 @@
         <span class="paper-venue">In <em>The Genetic and Evolutionary Computation Conference (GECCO) 2025 - Late-Breaking Abstract</em></span>
         <span class="paper-links"> · <a href="assets/papers/Indirect Credit Without A Heuristic For Coevolving Agents.pdf" itemprop="url">PDF</a></span>
       </li>
-      <li itemscope itemtype="https://schema.org/ScholarlyArticle">
+      <li data-type="full" itemscope itemtype="https://schema.org/ScholarlyArticle">
         <span class="paper-title" itemprop="name">Multiagent Credit Assignment for Multi-Objective Coordination</span>
         <span class="paper-authors" itemprop="author">R. Thakar, G. Dixit, S. Iyer, K. Tumer</span>
         <span class="paper-venue">In <em>The Genetic and Evolutionary Computation Conference (GECCO) 2025</em></span>
@@ -110,6 +137,24 @@
         <span class="paper-links"> · <a href="assets/papers/Multi-Objective Credit Assignment for Multiagent Systems.pdf" itemprop="url">PDF</a></span>
       </li>
     </ul>
+
+    <script>
+      (function () {
+        const btn   = document.getElementById('filter-full');
+        const items = document.querySelectorAll('#publications li');
+
+        btn.addEventListener('click', () => {
+          const showingFullOnly = btn.getAttribute('aria-pressed') === 'true';
+          items.forEach(li => {
+            const isFull = li.dataset.type === 'full';
+            li.style.display = showingFullOnly || isFull ? '' : 'none';
+          });
+          btn.textContent = showingFullOnly ? 'Show only full papers'
+                                            : 'Show all papers';
+          btn.setAttribute('aria-pressed', (!showingFullOnly).toString());
+        });
+      })();
+    </script>
   </section>
 
   <!-- ========================== UPDATES ========================== -->
